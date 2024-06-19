@@ -1,25 +1,25 @@
-data month_on_month_changes(drop=lag_Value lag_Month);
-    set input_data;
-    by Process Metric Month;
+```
+/* Reshape the data from wide to long format */
+PROC TRANSPOSE DATA=sample_data OUT=long_data (DROP=_NAME_) PREFIX=metric;
+    BY process month;
+    VAR value;
+RUN;
 
-    /* Initialize lag variables for the first row of each Metric */
-    if first.Metric then do;
-        lag_Value = .;
-        lag_Month = .;
-    end;
+/* Sort the data by metric and month */
+PROC SORT DATA=long_data;
+    BY metric month;
+RUN;
 
-    /* Calculate month-on-month changes */
-    Month_Change = .; /* Initialize Month_Change */
-    if not first.Metric and not first.Process then do;
-        Month_Change = (Value - lag_Value) / lag_Value;
-    end;
+/* Calculate the month-on-month change for each metric */
+DATA mom_change;
+    SET long_data;
+    BY metric month;
+    IF FIRST.metric THEN do;
+        change = .;
+    END;
+    ELSE do;
+        change = value - LAG(value);
+    END;
+RUN;
 
-    /* Output the result */
-    if not first.Metric then output;
-
-    /* Update lag variables */
-    lag_Value = Value;
-    lag_Month = Month;
-
-    format Month_Change percent7.2;
-run;
+```

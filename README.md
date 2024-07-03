@@ -1,6 +1,4 @@
-Apologies for the confusion. In `PROC REPORT`, we do not need to create additional macro variables like `m&month`. Instead, we should directly reference the column names in the report. Let's adjust the approach accordingly. We'll dynamically construct the `PROC REPORT` statements to create merged column headers for each month.
-
-Here's the revised approach:
+To generate a report in SAS with merged column headers for each month, showing both `Generated` and `Worked` columns under each month header, you can use `PROC REPORT` with the `ACROSS` option. Here's how you can do it:
 
 1. **Prepare the data**: Combine `Month`, `Case Generated`, and `Case Worked` into a single column.
 2. **Transpose the data**.
@@ -8,7 +6,7 @@ Here's the revised approach:
 4. **Sort the columns by month**.
 5. **Generate the report with merged columns**.
 
-Here's the complete code:
+Here's the complete approach:
 
 ```sas
 /* Sample data */
@@ -76,22 +74,23 @@ run;
 
 /* Step 7: Generate the report with merged columns */
 ods html file='report.html';
+
 proc report data=sorted_final nowd;
-    column Rule
-           %do month = 1 %to %sysfunc(countw(&month_list, ' '));
-                %let mon = %scan(&month_list, &month, ' ');
-                "&mon" ("Generated" &mon._Generated "Worked" &mon._Worked)
-            %end;
-           ;
+    columns Rule 
+        %do month = 1 %to %sysfunc(countw(&month_list, ' '));
+            %let mon = %scan(&month_list, &month, ' ');
+            ("&mon" &mon._Generated &mon._Worked)
+        %end;
+    ;
     
     define Rule / group 'Rule';
     %do month = 1 %to %sysfunc(countw(&month_list, ' '));
         %let mon = %scan(&month_list, &month, ' ');
-        define &mon / across ' ';
         define &mon._Generated / analysis sum 'Generated';
         define &mon._Worked / analysis sum 'Worked';
     %end;
 run;
+
 ods html close;
 ```
 
@@ -117,6 +116,6 @@ ods html close;
     - Use the dynamically generated `retain` statement to create the final dataset with columns sorted by month.
 
 7. **Generate the report with merged columns**:
-    - Use `PROC REPORT` to generate the report, with `Month` as merged column headers and corresponding sub-columns for `Generated` and `Worked` cases dynamically.
+    - Use `PROC REPORT` to generate the report, with `Month` as merged column headers and corresponding sub-columns for `Generated` and `Worked` cases dynamically. The `columns` statement constructs the structure, and the `define` statements set up the display and labels for each column.
 
 This approach ensures that the report is generated with month names as merged column headers and corresponding sub-columns for `Generated` and `Worked` cases dynamically.

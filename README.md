@@ -1,42 +1,16 @@
-
-Breakdown of Basic SAS Functionalities:
-
-1. Reading Tables:
-SAS reads tables using proc import and other dataset commands. In Python, you can use pandas to read tables from CSV, Excel, or SQL databases, or use PySpark to read large distributed datasets.
-
-Python Equivalent:
-
-import pandas as pd
-df = pd.read_csv('file.csv')  # For CSV
-df = pd.read_excel('file.xlsx')  # For Excel
-
-For databases:
-
-from sqlalchemy import create_engine
-engine = create_engine('database_connection_string')
-df = pd.read_sql('SELECT * FROM table', con=engine)
-
-
-
-2. Data Manipulation:
-SAS performs data manipulation using data steps and proc sql. In Python, pandas and PySpark provide versatile data manipulation capabilities like filtering, joining, aggregating, etc.
-
-Python Equivalent:
-
-# Filtering
-df_filtered = df[df['column'] > 50]
-# Joining
-df_join = df1.merge(df2, on='key')
-
-
-
-3. Automated Reports:
-Similar to SAS's ods for generating reports, Python can generate Excel or CSV reports using pandas and xlsxwriter or openpyxl.
-
-
-4. Advanced Analytics:
-Python can replicate many statistical and data manipulation procedures of SAS using statsmodels, scipy, and pandas for statistical computations.
-
-
-
-By integrating these Python packages, you can cover all basic and advanced functionalities offered by SAS and make the transition smoother while automating tasks, handling large datasets, and improving performance.
+| **SAS Use Case**                                      | **Python Equivalent**                                | **Packages Required**                                                                 |
+|-------------------------------------------------------|-----------------------------------------------------|--------------------------------------------------------------------------------------|
+| **Reading emails (Outlook)**                          | Reading emails from Outlook                         | `win32com.client`, `pywin32`, `msoffice365-rest-python-client`                       |
+| **Reading Excel attachments from emails (Outlook)**   | Extracting attachments from Outlook and reading Excel | `win32com.client`, `pandas`, `openpyxl`, `pywin32`                                  |
+| **Sending emails (Outlook)**                          | Sending emails via Outlook using Python             | `win32com.client`, `pywin32`, `msoffice365-rest-python-client`                      |
+| **Reading tables (basic SAS functionality)**          | Reading tables/dataframes from various sources      | `pandas`, `pyodbc`, `sqlalchemy`, `pyspark`                                          |
+| **Data manipulation (basic SAS functionality)**       | Data manipulation (filtering, joining, etc.)        | `pandas`, `pyspark`, `dask`, `numpy`                                                 |
+| **Automated report generation (Excel)**               | Generating automated Excel reports                  | `pandas`, `openpyxl`, `xlsxwriter`                                                   |
+| **Beautified Excel reports**                          | Formatting and styling Excel reports                | `openpyxl`, `xlsxwriter`, `pandas`                                                   |
+| **Running Excel macros**                              | Running Excel macros in Python                      | `openpyxl`, `xlwings`                                                                |
+| **Getting data from Teradata**                        | Fetching data from Teradata                         | `teradatasql`, `pyodbc`, `pyspark` (with JDBC driver)                                |
+| **Getting data from Cloudera/Hadoop**                 | Accessing data from Cloudera/Hadoop clusters        | `pyarrow`, `hdfs`, `pyspark`                                                         |
+| **Automating workflows (like SAS macros)**            | Automating workflows with Python                    | `argparse`, `airflow`, `luigi`                                                       |
+| **Statistical analysis**                              | Statistical analysis in Python                      | `statsmodels`, `scipy`, `numpy`, `pandas`                                            |
+| **Data visualization**                                | Visualization in Python                             | `matplotlib`, `seaborn`, `plotly`, `bokeh`                                           |
+| **Regression analysis and machine learning**          | Regression/ML in Python                             | `scikit-learn`, `statsmodels`, `xgboost`, `lightgbm`                                 |
